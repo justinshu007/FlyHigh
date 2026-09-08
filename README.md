@@ -1,4 +1,3 @@
-# Dino-Blast
 # Judul
 Dino-Blast
 
