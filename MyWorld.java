@@ -13,9 +13,17 @@ public class MyWorld extends World
      * Constructor for objects of class MyWorld.
      * 
      */
+    private DialogueBox dialogue;
+    private Fish fish;
     public MyWorld()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+        super(750, 420, 1);
+
+        setBackground("background1.png");
+        
+        fish = new Fish();
+        addObject(fish, 150, 220);
+
     }
+        
 }

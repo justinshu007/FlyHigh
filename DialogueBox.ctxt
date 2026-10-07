@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=DialogueBox
+comment1.params=name\ text
+comment1.target=DialogueBox(java.lang.String,\ java.lang.String)
+numComments=2
