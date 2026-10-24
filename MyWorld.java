@@ -1,27 +1,16 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class MyWorld here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class MyWorld extends World
 {
-
-    /**
-     * Constructor for objects of class MyWorld.
-     * 
-     */
     private DialogueBox dialogue;
-    private Fish fish;
+    private Koi fish;
     public MyWorld()
     {    
         super(750, 420, 1);
 
-        setBackground("background1.png");
+        setBackground("background.png");
         
-        fish = new Fish();
+        fish = new Koi();
         addObject(fish, 150, 220);
 
     }

@@ -1,15 +1,18 @@
 import greenfoot.*;
 
-public class Fish extends Actor
+public class Koi extends Actor
 {
-    private GreenfootImage[] frames;
+    private GreenfootImage[] frames = new GreenfootImage[8];
     private int currentFrame = 0;
     private int animationCounter = 0;
 
-    public Fish()
-    {
-        frames = new GreenfootImage[8];
+    private int startY;
+    private int amplitude = 30;
+    private int speed = 2;
+    private int direction = 1;
 
+    public Koi()
+    {
         frames[0] = new GreenfootImage("koi_fish0.png");
         frames[1] = new GreenfootImage("koi_fish1.png");
         frames[2] = new GreenfootImage("koi_fish2.png");
@@ -21,25 +24,30 @@ public class Fish extends Actor
         
         for (int i = 0; i < frames.length; i++)
         {
-            frames[i].scale(150, 80);
+            frames[i].scale(150, 77);
         }
 
         setImage(frames[0]);
     }
 
-    public void act()
+    protected void addedToWorld(World world)
     {
-        animate();
+        startY = getY();
     }
 
-    private void animate()
+    public void act()
+    {
+        animateKoi();
+        moveByKeyboard();
+    }
+
+    private void animateKoi()
     {
         animationCounter++;
 
-        if (animationCounter >= 8)
+        if (animationCounter >= 5)
         {
             animationCounter = 0;
-
             currentFrame++;
 
             if (currentFrame >= frames.length)
@@ -50,4 +58,20 @@ public class Fish extends Actor
             setImage(frames[currentFrame]);
         }
     }
+    
+    private void moveByKeyboard()
+    {
+    int speed = 3;
+
+        if (Greenfoot.isKeyDown("w"))
+        {
+            setLocation(getX(), getY() - speed);
+        }
+
+        if (Greenfoot.isKeyDown("s"))
+        {
+            setLocation(getX(), getY() + speed);
+        }
+    }
+
 }

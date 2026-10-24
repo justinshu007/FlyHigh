@@ -7,6 +7,8 @@ public class DialogueBox extends Actor
         GreenfootImage image = new GreenfootImage(1100, 190);
 
         // Main dialogue box
+
+        
         image.setColor(Color.BLACK);
         image.setTransparency(200);
         image.fill();
