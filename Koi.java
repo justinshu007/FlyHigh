@@ -10,6 +10,7 @@ public class Koi extends Actor
     private int amplitude = 30;
     private int speed = 2;
     private int direction = 1;
+    private int health = 3;
 
     public Koi()
     {
@@ -73,5 +74,25 @@ public class Koi extends Actor
             setLocation(getX(), getY() + speed);
         }
     }
+    
+    public int getHealth()
+    {
+        return health;
+    }
 
+    public void damage()
+    {
+        health--;
+    
+        System.out.println("HP = " + health);
+    
+        if(health <= 0)
+        {
+            health = 0;
+    
+            System.out.println("GAME OVER");
+    
+            Greenfoot.stop();
+        }
+    }
 }

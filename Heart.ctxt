@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Heart
+comment1.params=fish
+comment1.target=Heart(Koi)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ updateImage()
+numComments=4
