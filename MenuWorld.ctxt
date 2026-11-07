@@ -2,4 +2,6 @@
 comment0.target=MenuWorld
 comment1.params=
 comment1.target=MenuWorld()
-numComments=2
+comment2.params=
+comment2.target=void\ act()
+numComments=3

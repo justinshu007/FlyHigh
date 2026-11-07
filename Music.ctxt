@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Music
+comment1.params=
+comment1.target=void\ play()
+comment2.params=volume
+comment2.target=void\ setVolume(int)
+comment3.params=
+comment3.target=int\ getVolume()
+numComments=4
