@@ -3,7 +3,7 @@ import greenfoot.*;
 public class Music
 {
     private static GreenfootSound backsound =
-        new GreenfootSound("music.mp3");
+        new GreenfootSound("backsound.mp3");
 
     public static void play()
     {

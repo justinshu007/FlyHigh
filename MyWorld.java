@@ -2,16 +2,37 @@ import greenfoot.*;
 
 public class MyWorld extends World
 {
+    private int batasAngkaLevel; 
+    
     private GreenfootImage bgA;
     private GreenfootImage bgB;
-    private Koi fish;
+    
+    private Koi playerKoi;
     private Heart hearts;
 
     private int scrollX = 0;
-    private int speed = 2;
+    private int speed = 1;
+    
     private int spawnCounter = 0;
+    
+    // --- VARIABLE SPAWN KOIN ---
+    private int jedaSpawnKoin = 150;     // Jeda awal kemunculan koin (perlahan di awal)
+    private int timerSpawn = 50;         // Waktu tunggu koin pertama keluar
+    private int kecepatanKoinSaatIni = 2; // Kecepatan gerak awal koin melayang
+    private int totalKoinHancur = 0;     // Penghitung koin yang berhasil dijawab[cite: 3]
+    
+    // --- SISTEM NYAWA (MAKSIMAL 5 HATI, AWAL 3) ---
+    private int nyawa = 3; 
+    private Heart[] daftarHati = new Heart[5]; // Slot kapasitas maksimal 5 hati
+    private int comboBenarBerturut = 0;        // Counter untuk bonus hati
+    
+    
 
-    public MyWorld()
+    
+    
+
+
+    public MyWorld(int batasAngka)
     {
         super(750, 420, 1);
 
@@ -21,17 +42,25 @@ public class MyWorld extends World
         bgA.scale(750, 420);
         bgB.scale(750, 420);
 
-        Koi fish = new Koi();
-        addObject(fish, 150, 220);
-        
-        hearts = new Heart(fish);
-        addObject(hearts, 90, 35);
+      
+        // BATAS JML ANGKA (min.3) default
+        this.batasAngkaLevel = (batasAngka <= 0) ? 3 : batasAngka;
+    
+        // Pastikan playerKoi benar-benar diinisialisasi
+        this.playerKoi = new Koi();
+        addObject(this.playerKoi, 115, 230);
+
+        // 3 Hati awal di pojok kanan atas
+        for (int i = 0; i < 3; i++) {
+            daftarHati[i] = new Heart();
+            addObject(daftarHati[i], 580 + (i * 38), 35);
+        }
     }
 
     public void act()
     {
         scrollBackground();
-        actPizza();
+        
     }
 
     private void scrollBackground()
@@ -53,17 +82,5 @@ public class MyWorld extends World
         bg.drawImage(bgB, scrollX + 2250, 0);
     }
     
-    public void actPizza()
-    {
-        spawnCounter++;
-
-        if (spawnCounter >= 100)
-        {
-            int randomY = Greenfoot.getRandomNumber(340) + 40;
     
-            addObject(new Pizza(), 780, randomY);
-    
-            spawnCounter = 0;
-        }
-    }
 }

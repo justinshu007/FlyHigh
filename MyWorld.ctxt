@@ -1,11 +1,9 @@
 #BlueJ class context
 comment0.target=MyWorld
-comment1.params=
-comment1.target=MyWorld()
+comment1.params=batasAngka
+comment1.target=MyWorld(int)
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
 comment3.target=void\ scrollBackground()
-comment4.params=
-comment4.target=void\ actPizza()
-numComments=5
+numComments=4
