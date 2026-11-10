@@ -4,7 +4,10 @@ public class BackButton extends Actor
 {
     public BackButton()
     {
-        setImage("buttonBack.png");
+        
+        GreenfootImage gambar = getImage();
+        gambar.scale(150, 60);
+        setImage(gambar);
     }
 
     public void act()
