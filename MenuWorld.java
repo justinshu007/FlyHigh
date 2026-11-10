@@ -12,6 +12,7 @@ public class MenuWorld extends World
 
         addObject(new StartButton(), 375, 180);
         addObject(new SettingsButton(), 375, 270);
+        prepare();
     }
 
     public void act()
@@ -21,5 +22,12 @@ public class MenuWorld extends World
             Music.play();
             musicStarted = true;
         }
+    }
+    /**
+     * Prepare the world for the start of the program.
+     * That is: create the initial objects and add them to the world.
+     */
+    private void prepare()
+    {
     }
 }

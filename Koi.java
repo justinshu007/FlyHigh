@@ -108,10 +108,10 @@ public class Koi extends Actor
     public void tembak(int targetX, int targetYSoal) {
         this.targetY = targetYSoal; // Kunci ketinggian koin target
 
-        // Munculkan peluru (Meteor) dari depan mulut ikan
-        //Meteor peluruBaru = new Meteor();
-        //getWorld().addObject(peluruBaru, getX() + 35, getY());
-        //peluruBaru.turnTowards(targetX, targetYSoal);
+        //Munculkan peluru (Meteor) dari depan mulut ikan
+        Meteor peluruBaru = new Meteor();
+        getWorld().addObject(peluruBaru, getX() + 35, getY());
+        peluruBaru.turnTowards(targetX, targetYSoal);
     }
     
 }

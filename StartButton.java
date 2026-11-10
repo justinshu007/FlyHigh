@@ -20,6 +20,8 @@ public class StartButton extends Actor
             
             // 2. Hapus tombol Start ini dari layar menu
             dunia.removeObject(this);
+            dunia.removeObject(new SettingsButton());
+            
         }
     }
 }
