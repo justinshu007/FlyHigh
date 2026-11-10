@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 public class Koi extends Actor
-{
+{    
     private GreenfootImage[] frames = new GreenfootImage[8];
     private int currentFrame = 0;
     private int animationCounter = 0;
@@ -11,6 +11,16 @@ public class Koi extends Actor
     private int speed = 2;
     private int direction = 1;
     private int health = 3;
+    
+    // --- VARIABEL UNTUK GERAK SEJAJAR (SMOOTH EASING / LERP) ---
+    private int targetY = -1;          // Ketinggian koin target (-1 jika sedang diam)
+    private double currentY;           // Posisi Y presisi pecahan (double) agar tidak patah-patah
+    
+    // --- VARIABEL GELOMBANG MENGAPUNG (BOBBING) ---
+    private double sudutAnimasi = 0;   // Sudut perulangan sinus
+    private double kecepatanAyunan = 0.08; // Ombak lebih pelan dan santai
+    private double tinggiAyunan = 5.0;     // Jarak naik-turun 5 piksel agar transisi piksel mulus
+
 
     public Koi()
     {
@@ -34,14 +44,48 @@ public class Koi extends Actor
     protected void addedToWorld(World world)
     {
         startY = getY();
+        currentY = getY();
     }
 
     public void act()
     {
         animateKoi();
-        moveByKeyboard();
+        geserMulusKeTarget();
+        animasiMengapungHalus();
     }
 
+
+    private void geserMulusKeTarget() {
+        if (targetY != -1) {
+            // Bergerak 10% dari sisa jarak setiap frame (meluncur cepat lalu mengerem pelan)
+            currentY += (targetY - currentY) * 0.1;
+            // 2. WAJIB: Pindahkan posisi visual ikan di layar Greenfoot!
+            setLocation(getX(), (int)currentY);
+            // Jika sudah sangat dekat (kurang dari 1 piksel), kunci posisinya
+            if (Math.abs(targetY - currentY) < 1.0) {
+                currentY = targetY;
+                targetY = -1; // Selesai berpindah
+            }
+        }
+    }
+    
+    private void animasiMengapungHalus() {
+        sudutAnimasi += kecepatanAyunan; 
+        if (sudutAnimasi > Math.PI * 2) {
+            sudutAnimasi -= Math.PI * 2; // Cegah angka sudut membesar tak terbatas
+        }
+
+        // Hitung simpangan gelombang halus
+        double offsetSinus = Math.sin(sudutAnimasi);
+        int tambahanY = (int)(offsetSinus * tinggiAyunan);
+        
+        // Posisikan ikan di ketinggian halus
+        setLocation(getX(), (int)currentY + tambahanY);
+
+        // Efek kemiringan tipis: mendongak sedikit (-2 derajat) & menunduk (+2 derajat)
+        int derajatMiring = (int)(-offsetSinus * 2);
+        setRotation(derajatMiring);
+    }
     private void animateKoi()
     {
         animationCounter++;
@@ -60,39 +104,14 @@ public class Koi extends Actor
         }
     }
     
-    private void moveByKeyboard()
-    {
-    int speed = 3;
+    
+    public void tembak(int targetX, int targetYSoal) {
+        this.targetY = targetYSoal; // Kunci ketinggian koin target
 
-        if (Greenfoot.isKeyDown("w"))
-        {
-            setLocation(getX(), getY() - speed);
-        }
-
-        if (Greenfoot.isKeyDown("s"))
-        {
-            setLocation(getX(), getY() + speed);
-        }
+        // Munculkan peluru (Meteor) dari depan mulut ikan
+        //Meteor peluruBaru = new Meteor();
+        //getWorld().addObject(peluruBaru, getX() + 35, getY());
+        //peluruBaru.turnTowards(targetX, targetYSoal);
     }
     
-    public int getHealth()
-    {
-        return health;
-    }
-
-    public void damage()
-    {
-        health--;
-    
-        System.out.println("HP = " + health);
-    
-        if(health <= 0)
-        {
-            health = 0;
-    
-            System.out.println("GAME OVER");
-    
-            Greenfoot.stop();
-        }
-    }
 }

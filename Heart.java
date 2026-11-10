@@ -2,31 +2,49 @@ import greenfoot.*;
 
 public class Heart extends Actor
 {
-    private Koi fish;
+    private GreenfootImage gambarNormal;
+    private GreenfootImage gambarTransparan;
+    private int durasiKedip = 0;
+    //private Koi fish;
 
-    public Heart(Koi fish)
+    public Heart()
     {
-        this.fish = fish;
-        updateImage();
+        gambarNormal = new GreenfootImage("heart.png");
+        gambarNormal.scale(32, 32);
+
+        // Membuat versi transparan untuk efek kedip
+        gambarTransparan = new GreenfootImage(32, 32); 
+
+        setImage(gambarNormal);
     }
 
     public void act()
     {
-        updateImage();
-    }
+        if (durasiKedip > 0) {
+            durasiKedip--;
 
+            // Berganti gambar setiap 4 frame agar efek kedap-kedip terasa jelas
+            if ((durasiKedip / 4) % 2 == 0) {
+                setImage(gambarTransparan);
+            } else {
+                setImage(gambarNormal);
+            }
+
+            // Kembalikan ke gambar normal setelah animasi selesai
+            if (durasiKedip == 0) {
+                setImage(gambarNormal);
+            }
+        }
+    }
+    // Dipanggil dari MyWorld untuk memicu animasi kedap-kedip
+    public void mulaiKedip() {
+        durasiKedip = 30; // Berkedip selama ~0.5 detik (30 frame)
+    }
     private void updateImage()
     {
         GreenfootImage img = new GreenfootImage(150, 50);
 
-        for(int i = 0; i < fish.getHealth(); i++)
-        {
-            GreenfootImage heart = new GreenfootImage("heart.png");
-            heart.scale(40, 40);
-
-            img.drawImage(heart, i * 45, 0);
-        }
-
+        
         setImage(img);
     }
 }
