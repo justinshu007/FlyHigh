@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Koi
+comment1.params=
+comment1.target=Koi()
+comment2.params=world
+comment2.target=void\ addedToWorld(greenfoot.World)
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ geserMulusKeTarget()
+comment5.params=
+comment5.target=void\ animasiMengapungHalus()
+comment6.params=
+comment6.target=void\ animateKoi()
+comment7.params=targetX\ targetYSoal
+comment7.target=void\ tembak(int,\ int)
+numComments=8
