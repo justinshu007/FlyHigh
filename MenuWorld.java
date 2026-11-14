@@ -3,6 +3,7 @@ import greenfoot.*;
 public class MenuWorld extends World
 {
     private boolean musicStarted = false;
+    private int bubbleTimer = 0;
 
     public MenuWorld()
     {
@@ -21,6 +22,18 @@ public class MenuWorld extends World
         {
             Music.play();
             musicStarted = true;
+        }
+        bubbleTimer++;
+
+        if (bubbleTimer >= 20)
+        {
+            bubbleTimer = 0;
+        
+            addObject(
+                new Bubble(),
+                Greenfoot.getRandomNumber(getWidth()),
+                getHeight() + 10
+            );
         }
     }
     /**

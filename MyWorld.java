@@ -43,8 +43,8 @@ public class MyWorld extends World
     // --- VARIABEL EFEK GETAR (SCREEN SHAKE) ---
     private int timerGetar = 0; // Durasi getaran objek
     
-
-
+    private int bubbleTimer = 0;
+    
     public MyWorld(int batasAngka)
     {
         super(750, 420, 1);
@@ -85,6 +85,19 @@ public class MyWorld extends World
         } else {
             // Hitung mundur 3 detik saat kondisi Game Over
             prosesTimerKembaliKeMenu();
+        }
+        
+        bubbleTimer++;
+        
+        if (bubbleTimer >= 20)
+        {
+            bubbleTimer = 0;
+        
+            addObject(
+                new Bubble(),
+                Greenfoot.getRandomNumber(getWidth()),
+                getHeight() + 10
+            );
         }
     }
     
