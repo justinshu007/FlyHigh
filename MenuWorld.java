@@ -10,9 +10,10 @@ public class MenuWorld extends World
         super(750, 420, 1);
 
         setBackground("background.png");
-
-        addObject(new StartButton(), 375, 180);
-        addObject(new SettingsButton(), 375, 270);
+        
+        addObject(new title(), 375, 150);
+        addObject(new StartButton(), 320, 300);
+        addObject(new SettingsButton(), 470, 300);
         prepare();
     }
 
@@ -36,6 +37,7 @@ public class MenuWorld extends World
             );
         }
     }
+    
     /**
      * Prepare the world for the start of the program.
      * That is: create the initial objects and add them to the world.
