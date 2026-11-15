@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class BackButton extends Actor
+public class BackButton extends InteractiveButton
 {
     public BackButton()
     {
@@ -8,10 +8,12 @@ public class BackButton extends Actor
         GreenfootImage gambar = getImage();
         gambar.scale(150, 60);
         setImage(gambar);
+        siapkanEfekVisual();
     }
 
     public void act()
     {
+        jalankanEfekTombol();
         if (Greenfoot.mouseClicked(this))
         {
             Greenfoot.setWorld(new MenuWorld());
