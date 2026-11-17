@@ -9,23 +9,25 @@ public class SettingsWorld extends World
         super(750, 420, 1);
 
         setBackground("background.png");
-        
         addObject(new Box(), 375, 210);
-        
         addObject(new SettingsWord(), 375, 80);
 
-        addObject(new VolumeIcon(), 185, 200);
+        // SLIDER BACKSOUND (ATAS)
+        addObject(new VolumeIcon(), 185, 165);
+        addObject(new SliderBar(), 410, 165);
+        VolumeSlider sliderMusic = new VolumeSlider(false);
+        int startXMusic = 250 + SetVolume.volume * (570 - 250) / 100;
+        addObject(sliderMusic, startXMusic, 165);
 
-        addObject(new SliderBar(), 410, 200);
-        
-        VolumeSlider slider = new VolumeSlider();
+        // SLIDER SFX (BAWAH)
+        addObject(new VolumeIcon(), 185, 245); // Bisa diganti SFXIcon jika ada ikon berbeda
+        addObject(new SliderBar(), 410, 245);
+        VolumeSlider sliderSFX = new VolumeSlider(true);
+        int startXSFX = 250 + SetSFXVolume.volume * (570 - 250) / 100;
+        addObject(sliderSFX, startXSFX, 245);
 
-        int startX =
-            250 + SetVolume.volume * (500 - 250) / 100;
-
-        addObject(slider, startX, 200);
-
-        addObject(new BackButton(), 375, 320);
+        // TOMBOL BACK
+        addObject(new BackButton(), 375, 335);
     }
     
     public void act()
