@@ -35,6 +35,7 @@ public class InteractiveButton extends Actor
         // Cek apakah mouse sedang menekan (hold) tombol ini
         if (Greenfoot.mousePressed(this)) {
             setImage(gambarKlik);
+            SFX.playClick(); // <-- Bunyi SFX saat tombol diklik
             return;
         }
 
@@ -43,6 +44,7 @@ public class InteractiveButton extends Actor
             if (!sedangHover) {
                 sedangHover = true;
                 setImage(gambarHover);
+                SFX.playHover(); // <-- Bunyi SFX sekali saat kursor menyentuh tombol
             }
         } else if (Greenfoot.mouseMoved(null) && sedangHover) {
             // Kursor keluar dari area tombol

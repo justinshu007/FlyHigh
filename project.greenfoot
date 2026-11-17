@@ -49,6 +49,7 @@ dependency2.type=UsesDependency
 dependency20.from=MenuWorld
 dependency20.to=Music
 dependency20.type=UsesDependency
+<<<<<<< Updated upstream
 dependency21.from=SwordFish
 dependency21.to=Meteor
 dependency21.type=UsesDependency
@@ -69,6 +70,28 @@ dependency26.to=MyWorld
 dependency26.type=UsesDependency
 dependency27.from=BackButton
 dependency27.to=MenuWorld
+=======
+dependency21.from=Koi
+dependency21.to=Meteor
+dependency21.type=UsesDependency
+dependency22.from=Meteor
+dependency22.to=CoinSoal
+dependency22.type=UsesDependency
+dependency23.from=VolumeSlider
+dependency23.to=SetVolume
+dependency23.type=UsesDependency
+dependency24.from=SettingsButton
+dependency24.to=SettingsWorld
+dependency24.type=UsesDependency
+dependency25.from=BtnEasy
+dependency25.to=MyWorld
+dependency25.type=UsesDependency
+dependency26.from=BackButton
+dependency26.to=MenuWorld
+dependency26.type=UsesDependency
+dependency27.from=BtnMedium
+dependency27.to=MyWorld
+>>>>>>> Stashed changes
 dependency27.type=UsesDependency
 dependency28.from=BtnMedium
 dependency28.to=MyWorld
@@ -124,6 +147,7 @@ dependency8.type=UsesDependency
 dependency9.from=SettingsWorld
 dependency9.to=SettingsWord
 dependency9.type=UsesDependency
+<<<<<<< Updated upstream
 editor.fx.0.height=1048
 editor.fx.0.width=1936
 editor.fx.0.x=-8
@@ -131,6 +155,15 @@ editor.fx.0.y=-8
 height=1048
 package.numDependencies=38
 package.numTargets=31
+=======
+editor.fx.0.height=0
+editor.fx.0.width=0
+editor.fx.0.x=0
+editor.fx.0.y=0
+height=814
+package.numDependencies=37
+package.numTargets=30
+>>>>>>> Stashed changes
 project.charset=UTF-8
 publish.hasSource=false
 publish.locked=true
@@ -363,7 +396,11 @@ target9.width=120
 target9.x=0
 target9.y=0
 version=3.1.0
+<<<<<<< Updated upstream
 width=1936
+=======
+width=1246
+>>>>>>> Stashed changes
 world.lastInstantiated=MenuWorld
 xPosition=0
 yPosition=0
