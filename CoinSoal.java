@@ -4,26 +4,34 @@ public class CoinSoal extends Actor
 {
     private int jawabanBenar;
     private int kecepatan = 2;
-    private boolean sudahTerlewat = false; // Mencegah pemanggilan ganda
-    
-    public CoinSoal(int batasAngkaLevel, int kecepatanKoin) {
-        this.kecepatan = kecepatanKoin; // Menyimpan kecepatan dinamis dari MyWorld
+    private boolean sudahTerlewat = false;
 
-        // Pengaman batas level agar tidak bernilai <= 0
+    public CoinSoal(int batasAngkaLevel, int kecepatanKoin) {
+        this(batasAngkaLevel, kecepatanKoin, 10);
+    }
+
+    public CoinSoal(int batasAngkaLevel, int kecepatanKoin, int skorSaatIni) {
+        this.kecepatan = kecepatanKoin;
+
         int batas = (batasAngkaLevel <= 0) ? 3 : batasAngkaLevel;
 
-        int angka1 = Greenfoot.getRandomNumber(batas) + 1;
-        int angka2 = Greenfoot.getRandomNumber(batas) + 1;
+        // PSIKOLOGI SCAFFOLDING: 4 soal pertama pakai rentang pemanasan agar anak langsung percaya diri
+        int batasEfektif = batas;
+        if (skorSaatIni < 4 && batas > 3) {
+            batasEfektif = Math.max(3, batas / 2);
+        }
+
+        int angka1 = Greenfoot.getRandomNumber(batasEfektif) + 1;
+        int angka2 = Greenfoot.getRandomNumber(batasEfektif) + 1;
         String teksSoal = "";
 
-        // Logika Level Hard (batas == 10): Bisa Penjumlahan atau Pengurangan
-        if (batas == 10 && Greenfoot.getRandomNumber(2) == 1) {
+        // Logika Level Hard (batas == 10): Penjumlahan atau Pengurangan (setelah 3 soal pemanasan)
+        if (batas == 10 && skorSaatIni >= 3 && Greenfoot.getRandomNumber(2) == 1) {
             if (angka1 < angka2) {
                 int temp = angka1;
                 angka1 = angka2;
                 angka2 = temp;
             }
-            
             jawabanBenar = angka1 - angka2;
             teksSoal = angka1 + " - " + angka2;
         } else {
@@ -31,11 +39,10 @@ public class CoinSoal extends Actor
             teksSoal = angka1 + " + " + angka2;
         }
 
-        // Buat gambar koin dan cetak soal di atasnya
         GreenfootImage gambarKoin = new GreenfootImage("icon_coin.png");
-        gambarKoin.scale(150, 150);
+        gambarKoin.scale(130, 130); // Proporsional untuk 3 jalur renang vertikal
         
-        GreenfootImage teks = new GreenfootImage(teksSoal, 30, Color.BLACK, new Color(0,0,0,0));
+        GreenfootImage teks = new GreenfootImage(teksSoal, 28, Color.BLACK, new Color(0, 0, 0, 0));
         
         int posisiTengahX = (gambarKoin.getWidth() - teks.getWidth()) / 2;
         int posisiTengahY = (gambarKoin.getHeight() - teks.getHeight()) / 2;
@@ -46,35 +53,26 @@ public class CoinSoal extends Actor
 
     public void act()
     {
-        // 1. REM DARURAT PERTAMA: Jika koin sudah hancur
         if (getWorld() == null) {
             return; 
         }
 
-        // 2. REM PAUSE: Bekukan pergerakan koin saat dialog Game Paused terbuka
         MyWorld dunia = (MyWorld) getWorld();
         if (dunia.isPaused()) {
             return;
         }
 
-        // Koin bergerak pelan dari kanan ke kiri
         setLocation(getX() - kecepatan, getY());
         
-        // Jika koin mencapai ujung kiri layar
         if (getX() <= 0) {
             getWorld().removeObject(this);
             return; 
         }
         
-        // Koin melewati posisi Ikan Koi (X = 115)
         if (!sudahTerlewat && getX() < 90) {
             sudahTerlewat = true;
-            
-            if (dunia != null) {
-                dunia.koinTerlewat();
-            }
+            dunia.koinTerlewat();
 
-            // Wajib cek getWorld() != null karena koin bisa saja sudah dihapus saat Game Over
             if (getWorld() != null) {
                 getWorld().removeObject(this);
             }
