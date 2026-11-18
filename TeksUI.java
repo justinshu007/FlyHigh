@@ -29,9 +29,12 @@ public class TeksUI extends Actor
         Font fontKustom = new Font(namaFont, true, false, ukuranFont);
         kanvas.setFont(fontKustom);
 
-        int posX = 10;
-        int posY = ukuranFont + 10;
-
+        //int posX = 10;
+        //int posY = ukuranFont + 10;
+        // Hitung posisi X agar teks selalu berada di tengah kanvas 300px
+        int perkiraanLebarTeks = teksBaru.length() * (int)(ukuranFont * 0.85);
+        int posX = Math.max(10, (kanvas.getWidth() - perkiraanLebarTeks) / 2);
+        int posY = ukuranFont + 12;
         // 1. Gambar outline/stroke hitam di sekeliling teks (offset 2 piksel)
         kanvas.setColor(Color.BLACK);
         kanvas.drawString(teksBaru, posX - 2, posY);
