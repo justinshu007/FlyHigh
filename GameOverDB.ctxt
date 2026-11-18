@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=GameOverDB
+comment1.params=skorAkhir\ bestScore
+comment1.target=GameOverDB(int,\ int)
+comment2.params=
+comment2.target=void\ act()
+numComments=3

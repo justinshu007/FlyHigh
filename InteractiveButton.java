@@ -24,11 +24,11 @@ public class InteractiveButton extends Actor
 
         // 2. State Hover: Membesar 8% (108%) saat kursor menyentuh tombol
         gambarHover = new GreenfootImage(asli);
-        gambarHover.scale((int)(w * 1.03), (int)(h * 1.03));
+        gambarHover.scale((int)(w * 1.08), (int)(h * 1.08));
 
         // 3. State Click: Mengecil 6% (94%) memberi sensasi tombol tertekan
         gambarKlik = new GreenfootImage(asli);
-        gambarKlik.scale((int)(w * 0.94), (int)(h * 0.94));
+        gambarKlik.scale((int)(w * 0.9), (int)(h * 0.9));
     }
     
     protected void jalankanEfekTombol() {

@@ -13,6 +13,8 @@ public class SFX
     private static GreenfootSound sfxGameOver;
     private static GreenfootSound sfxHover;
     private static GreenfootSound sfxClick;
+    private static GreenfootSound sfxLevelUp; 
+    private static GreenfootSound sfxLiveUp; 
     
     static {
         try {
@@ -21,6 +23,8 @@ public class SFX
             sfxGameOver = new GreenfootSound("gameOver.wav");
             sfxHover    = new GreenfootSound("hoverSFX.wav");    // Sesuaikan nama file audio hover
             sfxClick    = new GreenfootSound("clickSFX.wav");    // Sesuaikan nama file audio click
+            sfxLevelUp    = new GreenfootSound("liveUpSFX.mp3");
+            sfxLiveUp    = new GreenfootSound("levelUpSFX.mp3");
             setVolume(SetSFXVolume.volume);
         } catch (Exception e) {
             // Aman jika salah satu file audio belum ada di folder sounds
@@ -32,7 +36,8 @@ public class SFX
     public static void playGameOver() { mainkan(sfxGameOver); }
     public static void playHover()    { mainkan(sfxHover); }
     public static void playClick()    { mainkan(sfxClick); }
-    
+    public static void playLevelUp()  { mainkan(sfxLevelUp); }
+    public static void playLiveUp()  { mainkan(sfxLiveUp); } 
     private static void mainkan(GreenfootSound sound)
     {
         if (sound != null) {
@@ -51,5 +56,7 @@ public class SFX
         if (sfxGameOver != null) sfxGameOver.setVolume(vol);
         if (sfxHover != null)    sfxHover.setVolume(vol);
         if (sfxClick != null)    sfxClick.setVolume(vol);
+        if (sfxLevelUp != null)  sfxLevelUp.setVolume(vol); 
+        if (sfxLiveUp != null)  sfxLiveUp.setVolume(vol); 
     }
 }
