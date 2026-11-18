@@ -2,8 +2,10 @@
 comment0.target=CoinSoal
 comment1.params=batasAngkaLevel\ kecepatanKoin
 comment1.target=CoinSoal(int,\ int)
-comment2.params=
-comment2.target=void\ act()
+comment2.params=batasAngkaLevel\ kecepatanKoin\ skorSaatIni
+comment2.target=CoinSoal(int,\ int,\ int)
 comment3.params=
-comment3.target=int\ getJawaban()
-numComments=4
+comment3.target=void\ act()
+comment4.params=
+comment4.target=int\ getJawaban()
+numComments=5

@@ -12,15 +12,18 @@ public class MyWorld extends World
     private int scrollX = 0;
     private int speed = 1;
     
-    // --- STATUS GAME OVER & TIMER 3 DETIK (180 FRAME) ---
+    // --- STATUS GAME OVER ---
     private boolean isGameOver = false;
-    private int timerKembaliKeMenu = 180;
     
-    // --- VARIABEL SPAWNER KOIN ---
-    private int jedaSpawnKoin = 150;     
-    private int timerSpawn = 50;         
-    private int kecepatanKoinSaatIni = 2; 
-    private int totalKoinHancur = 0;     
+    // --- VARIABEL SPAWNER KOIN (PSIKOLOGI FLOW & RECOVERY) ---
+    private int jedaSpawnKoin = 160;      // Jeda awal santai (~2,6 detik) untuk orientasi
+    private int timerSpawn = 45;          // Koin pertama segera menyapa agar tidak menunggu lama
+    private int kecepatanKoinSaatIni = 2; // Laju gerak awal lembut (2 px/frame)
+    private int streakKecepatan = 0;      // Dihitung dari jawaban benar berturut-turut
+    
+    // --- JALUR RENANG KOIN (3 LANES ANTI-BERTUMPUK) ---
+    private int[] jalurY = {115, 225, 330};
+    private int jalurTerakhir = -1;
     
     // --- SISTEM NYAWA (MAKSIMAL 5 HATI, AWAL 3) ---
     private int nyawa = 3; 
@@ -48,7 +51,6 @@ public class MyWorld extends World
     {
         super(750, 420, 1);
         
-        // Urutan layer dari paling depan (atas) ke paling belakang
         setPaintOrder(
             BtnBackPause.class,
             BtnMainMenu.class,
@@ -82,7 +84,7 @@ public class MyWorld extends World
         tampilanSkor = new TeksUI(String.valueOf(skorSaatIni), 28, "Press Start 2P");
         addObject(tampilanSkor, 375, 45);
 
-        // 4. 3 Hati Awal di Pojok Kanan Atas (sejajar Y = 45)
+        // 4. 3 Hati Awal di Pojok Kanan Atas
         for (int i = 0; i < 3; i++) {
             daftarHati[i] = new Heart();
             addObject(daftarHati[i], 540 + (i * 38), 45);
@@ -92,7 +94,6 @@ public class MyWorld extends World
     public void act()
     {
         if (!isGameOver) {
-            // 1. Gameplay utama: HANYA berjalan jika TIDAK sedang pause
             if (!isPaused) {
                 scrollBackground();
                 munculkanKoinBertahap();
@@ -100,7 +101,6 @@ public class MyWorld extends World
                 efekGetarObjek();
             }
 
-            // 2. Efek Ambient (Bubble): Tetap muncul & naik meskipun sedang pause
             bubbleTimer++;
             if (bubbleTimer >= 20)
             {
@@ -123,9 +123,22 @@ public class MyWorld extends World
         return isGameOver;
     }
 
+    public void tambahSkor() {
+        skorSaatIni += 1;
+        if (skorSaatIni > bestScore) {
+            bestScore = skorSaatIni;
+        }
+        if (tampilanSkor != null) {
+            tampilanSkor.ubahTeks(String.valueOf(skorSaatIni), 28, "Press Start 2P");
+        }
+        if (playerKoi != null) {
+            playerKoi.cekEvolusi(skorSaatIni);
+        }
+    }
+
     public void jedaPermainan() {
         isPaused = true;
-        Greenfoot.getKey(); // Bersihkan buffer keyboard
+        Greenfoot.getKey();
 
         addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
         addObject(new PauseDialogBox(), getWidth() / 2, getHeight() / 2);
@@ -135,7 +148,7 @@ public class MyWorld extends World
 
     public void lanjutkanPermainan() {
         isPaused = false;
-        Greenfoot.getKey(); // Bersihkan buffer keyboard
+        Greenfoot.getKey();
 
         removeObjects(getObjects(BtnBackPause.class));
         removeObjects(getObjects(BtnMainMenu.class));
@@ -156,31 +169,16 @@ public class MyWorld extends World
             }
         }
 
-        // Pemicu Game Over saat nyawa habis
-        // Pemicu Game Over saat nyawa habis
         if (nyawa <= 0) {
             isGameOver = true;
             SFX.playGameOver();
 
-            // 1. Bersihkan sisa koin soal & peluru
             removeObjects(getObjects(CoinSoal.class));
             removeObjects(getObjects(Meteor.class));
 
-            // 2. Redupkan layar belakang
             addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
-
-            // 3. Munculkan Dialog Box Game Over
             addObject(new GameOverDB(skorSaatIni, bestScore), getWidth() / 2, getHeight() / 2);
-
-            // 4. Munculkan tombol Main Menu (sama seperti di dialog Pause) di bawah teks skor
             addObject(new BtnMainMenu(), getWidth() / 2, 275);
-        }
-    }
-
-    private void prosesTimerKembaliKeMenu() {
-        timerKembaliKeMenu--;
-        if (timerKembaliKeMenu <= 0) {
-            Greenfoot.setWorld(new MenuWorld());
         }
     }
 
@@ -194,7 +192,7 @@ public class MyWorld extends World
                 addObject(daftarHati[nyawa], 540 + (nyawa * 38), 45);
                 daftarHati[nyawa].mulaiKedip();
                 nyawa++;
-                SFX.playBenar();
+                SFX.playLiveUp(); // <-- Memutar SFX khusus saat nyawa bertambah
             }
         }
     }
@@ -203,15 +201,57 @@ public class MyWorld extends World
         if (!isGameOver) {
             pemicuSalah();
             kurangiNyawa();
+
+            // PSIKOLOGI RECOVERY: Saat koin terlewat, JANGAN dipercepat!
+            // Reset streak kecepatan dan beri jeda napas agar anak tidak panik (hindari Death Spiral)
+            streakKecepatan = 0;
+            if (jedaSpawnKoin < 140) {
+                jedaSpawnKoin += 20; // Longgarkan jarak antar koin berikutnya
+            }
+            if (kecepatanKoinSaatIni > 2) {
+                kecepatanKoinSaatIni -= 1; // Perlambat sedikit laju koin
+            }
+            timerSpawn = Math.max(timerSpawn, 90); // Beri jeda minimal 1,5 detik sebelum koin baru masuk
         }
     }
 
-    // --- SPAWNER KOIN ---
+    // --- SPAWNER KOIN (3 JALUR RAPI + MAX 3 KOIN + ANTI JAWABAN KEMBAR) ---
     private void munculkanKoinBertahap() {
+        List<CoinSoal> daftarKoin = getObjects(CoinSoal.class);
+
+        // 1. Batasi maksimal 3 koin aktif di layar agar tidak visual overload
+        if (daftarKoin.size() >= 3) {
+            return;
+        }
+
         timerSpawn--;
         if (timerSpawn <= 0) {
-            CoinSoal koinBaru = new CoinSoal(batasAngkaLevel, kecepatanKoinSaatIni);
-            addObject(koinBaru, 750, Greenfoot.getRandomNumber(280) + 60);
+            // 2. Pilih jalur Y yang berbeda dari koin terakhir agar tidak bertumpuk
+            int indeksJalur = Greenfoot.getRandomNumber(jalurY.length);
+            if (indeksJalur == jalurTerakhir) {
+                indeksJalur = (indeksJalur + 1) % jalurY.length;
+            }
+            jalurTerakhir = indeksJalur;
+
+            // 3. Buat koin dengan jawaban yang tidak kembar dengan koin yang sudah ada di layar
+            CoinSoal koinBaru = null;
+            for (int percobaan = 0; percobaan < 10; percobaan++) {
+                CoinSoal kandidat = new CoinSoal(batasAngkaLevel, kecepatanKoinSaatIni, skorSaatIni);
+                boolean jawabanKembar = false;
+                for (CoinSoal koinAktif : daftarKoin) {
+                    if (koinAktif.getJawaban() == kandidat.getJawaban()) {
+                        jawabanKembar = true;
+                        break;
+                    }
+                }
+                if (!jawabanKembar) {
+                    koinBaru = kandidat;
+                    break;
+                }
+                koinBaru = kandidat;
+            }
+
+            addObject(koinBaru, 760, jalurY[indeksJalur]);
             timerSpawn = jedaSpawnKoin; 
         }
     }
@@ -261,6 +301,12 @@ public class MyWorld extends World
                 periksaBonusNyawa();
                 periksaPeningkatanKecepatan();
 
+                // Jika layar jadi kosong setelah koin ditembak, percepat sedikit koin berikutnya
+                // agar anak tidak bosan menunggu layar kosong terlalu lama
+                if (getObjects(CoinSoal.class).size() <= 1 && timerSpawn > 45) {
+                    timerSpawn = 45;
+                }
+
                 jawabanDiketik = "";
                 break;
             } else if (String.valueOf(koin.getJawaban()).startsWith(jawabanDiketik)) {
@@ -276,28 +322,22 @@ public class MyWorld extends World
     private void pemicuSalah() {
         SFX.playSalah();
         comboBenarBerturut = 0;
+        streakKecepatan = 0; // Reset streak percepatan jika salah ketik
         timerGetar = 10;
         jawabanDiketik = "";
     }
 
-    public void tambahSkor() {
-        skorSaatIni += 1;
-        if (skorSaatIni > bestScore) {
-            bestScore = skorSaatIni;
-        }
-        if (tampilanSkor != null) {
-            tampilanSkor.ubahTeks(String.valueOf(skorSaatIni), 28, "Press Start 2P");
-        }
-    }
-
+    // PSIKOLOGI FLOW STATE: Kecepatan hanya naik jika user berhasil menjawab berturut-turut!
     private void periksaPeningkatanKecepatan() {
-        totalKoinHancur++;
-        if (totalKoinHancur % 5 == 0) {
-            if (jedaSpawnKoin > 50) {
-                jedaSpawnKoin -= 20;
+        streakKecepatan++;
+        
+        // Setiap 4 jawaban benar berturut-turut tanpa salah/terlewat, naikkan tempo permainan
+        if (streakKecepatan % 4 == 0) {
+            if (jedaSpawnKoin > 65) {
+                jedaSpawnKoin -= 15; // Koin baru muncul lebih rapat
             }
-            if (kecepatanKoinSaatIni < 5) {
-                kecepatanKoinSaatIni += 1;
+            if (kecepatanKoinSaatIni < 4) {
+                kecepatanKoinSaatIni += 1; // Laju gerak naik bertahap (maksimal 4 agar tetap terbaca)
             }
         }
     }
