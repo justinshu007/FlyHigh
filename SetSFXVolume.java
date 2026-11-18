@@ -6,8 +6,7 @@
  */
 public class SetSFXVolume
 {
-    // Nilai volume SFX global (0 - 100), default 70
-    public static int volume = 70;
+    public static int volume = 100;
 
     public static void updateVolume()
     {

@@ -123,8 +123,8 @@ public class MyWorld extends World
             //if (bgm != null) bgm.stop();
 
             // 2. Putar suara efek Game Over
-            putarSuaraAman("gameOver.mp3"); // Pastikan file audio tersedia di folder sounds
-
+            SFX.playGameOver();
+            
             // 3. Tampilkan teks Game Over di tengah layar
             TeksUI teksGameOver = new TeksUI("GAME OVER!", 30, "Press Start 2P");
             addObject(teksGameOver, getWidth() / 2, getHeight() / 2);
