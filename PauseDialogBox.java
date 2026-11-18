@@ -17,6 +17,8 @@ public class PauseDialogBox extends Actor
         setImage("dbGamePaused.png"); // Sesuaikan nama file aset dialog box-mu
         //MENGUBAH UKURAN GAMBAR
         GreenfootImage img = getImage();
+        img.scale(img.getWidth() * 8, img.getHeight() * 8);
+        setImage(img);
         int lebarBaru = (int)(img.getWidth() * 0.4);   // Ubah 0.6 sesuai selera (misal 0.5 untuk setengah)
         int tinggiBaru = (int)(img.getHeight() * 0.4);
         img.scale(Math.max(1, lebarBaru), Math.max(1, tinggiBaru));
