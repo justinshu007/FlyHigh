@@ -142,8 +142,8 @@ public class MyWorld extends World
 
         addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
         addObject(new PauseDialogBox(), getWidth() / 2, getHeight() / 2);
-        addObject(new BtnBackPause(), 420, 195);
-        addObject(new BtnMainMenu(), 435, 230);
+        addObject(new BtnBackPause(), 400, 195);
+        addObject(new BtnMainMenu(), 400, 240);
     }
 
     public void lanjutkanPermainan() {

@@ -6,7 +6,7 @@ public class BackButton extends InteractiveButton
     {
         
         GreenfootImage gambar = getImage();
-        gambar.scale(150, 60);
+        gambar.scale(220, 60);
         setImage(gambar);
         siapkanEfekVisual();
     }

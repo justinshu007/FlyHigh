@@ -10,11 +10,11 @@ public class BtnPause extends InteractiveButton
 {
     public BtnPause()
     {
-        setImage("btnPause.png"); // Sesuaikan nama file aset tombol pause-mu
+        setImage("pauseIcon.png"); // Sesuaikan nama file aset tombol pause-mu
         //MENGUBAH UKURAN
         GreenfootImage img = getImage();
-        int lebarBaru = (int)(img.getWidth() * 0.5);   // Ubah 0.6 sesuai selera (misal 0.5 untuk setengah)
-        int tinggiBaru = (int)(img.getHeight() * 0.5);
+        int lebarBaru = (int)(img.getWidth() * 3);   // Ubah 0.6 sesuai selera (misal 0.5 untuk setengah)
+        int tinggiBaru = (int)(img.getHeight() * 3);
         img.scale(Math.max(1, lebarBaru), Math.max(1, tinggiBaru));
         setImage(img);
         siapkanEfekVisual();

@@ -7,18 +7,18 @@ public class GameOverDB extends Actor
         GreenfootImage board;
 
         try {
-            board = new GreenfootImage("dbGameOver.png");
-            board.scale(440, 290); 
+            board = new GreenfootImage("dbGameScore.png");
+            board.scale(440, 340); 
         } catch (Exception e) {
             board = new GreenfootImage(440, 290);
             board.setColor(new Color(235, 232, 220));
-            board.fillRect(0, 0, 440, 290);
+            board.fillRect(0, 0, 420, 340);
             board.setColor(Color.BLACK);
             board.drawRect(2, 2, 436, 286);
         }
 
         //Tampilan FONT
-        Font fontSkor = new Font("Press Start 2P", true, false, 16);
+        Font fontSkor = new Font("PixelifySans", true, false, 16);
         board.setFont(fontSkor);
 
         String teksSkor = "your score: " + skorAkhir;

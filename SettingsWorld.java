@@ -13,7 +13,7 @@ public class SettingsWorld extends World
         addObject(new SettingsWord(), 375, 80);
 
         // SLIDER BACKSOUND (ATAS)
-        addObject(new VolumeIcon(), 185, 165);
+        addObject(new MusicIcon(), 185, 165);
         addObject(new SliderBar(), 410, 165);
         VolumeSlider sliderMusic = new VolumeSlider(false);
         int startXMusic = 250 + SetVolume.volume * (570 - 250) / 100;

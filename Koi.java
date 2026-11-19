@@ -66,13 +66,13 @@ public class Koi extends Actor
     // Dipanggil oleh MyWorld setiap kali skor bertambah
     public void cekEvolusi(int skorSaatIni)
     {
-        if (skorSaatIni >= 40 && tahapIkan < 3) {
+        if (skorSaatIni >= 10 && tahapIkan < 3) {
             tahapIkan = 3;
             framesAktif = framesHiu;
             currentFrame = 0;
             setImage(framesAktif[0]);
             SFX.playLevelUp();
-        } else if (skorSaatIni >= 20 && tahapIkan < 2) {
+        } else if (skorSaatIni >= 5 && tahapIkan < 2) {
             tahapIkan = 2;
             framesAktif = framesSwordfish;
             currentFrame = 0;
