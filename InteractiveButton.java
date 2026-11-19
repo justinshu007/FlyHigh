@@ -1,59 +1,61 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class InteractiveButton here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class InteractiveButton extends Actor
 {
     private GreenfootImage gambarNormal;
     private GreenfootImage gambarHover;
     private GreenfootImage gambarKlik;
     private boolean sedangHover = false;
-    
-    // Panggil method ini di dalam Constructor setiap tombol setelah setImage()
+
     protected void siapkanEfekVisual() {
         GreenfootImage asli = getImage();
         int w = asli.getWidth();
         int h = asli.getHeight();
 
-        // 1. State Normal (100%)
         gambarNormal = new GreenfootImage(asli);
 
-        // 2. State Hover: Membesar 8% (108%) saat kursor menyentuh tombol
         gambarHover = new GreenfootImage(asli);
-        gambarHover.scale((int)(w * 1.08), (int)(h * 1.08));
+        gambarHover.scale((int)(w * 1.03), (int)(h * 1.03));
 
-        // 3. State Click: Mengecil 6% (94%) memberi sensasi tombol tertekan
         gambarKlik = new GreenfootImage(asli);
-        gambarKlik.scale((int)(w * 0.9), (int)(h * 0.9));
+        gambarKlik.scale((int)(w * 0.95), (int)(h * 0.95));
     }
-    
+
     protected void jalankanEfekTombol() {
-        // Cek apakah mouse sedang menekan (hold) tombol ini
+        if (gambarNormal == null || getWorld() == null) return;
+
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        boolean kursorDiAtas = false;
+
+        if (mouse != null) {
+            int setengahLebar = gambarNormal.getWidth() / 2;
+            int setengahTinggi = gambarNormal.getHeight() / 2;
+            kursorDiAtas = Math.abs(mouse.getX() - getX()) <= setengahLebar &&
+                           Math.abs(mouse.getY() - getY()) <= setengahTinggi;
+        }
+
+        // 1. State Klik
         if (Greenfoot.mousePressed(this)) {
             setImage(gambarKlik);
-            SFX.playClick(); // <-- Bunyi SFX saat tombol diklik
+            SFX.playClick();
             return;
         }
 
-        // Cek apakah kursor berada di atas tombol (Hover)
-        if (Greenfoot.mouseMoved(this)) {
+        // 2. State Hover (Instan saat masuk & langsung reset saat keluar)
+        if (kursorDiAtas) {
             if (!sedangHover) {
                 sedangHover = true;
                 setImage(gambarHover);
-                SFX.playHover(); // <-- Bunyi SFX sekali saat kursor menyentuh tombol
+                SFX.playHover();
             }
-        } else if (Greenfoot.mouseMoved(null) && sedangHover) {
-            // Kursor keluar dari area tombol
+        } else if (sedangHover) {
             sedangHover = false;
             setImage(gambarNormal);
         }
-    }    
+    }
+
     public void act()
     {
-        // Add your action code here.
+        jalankanEfekTombol();
     }
 }

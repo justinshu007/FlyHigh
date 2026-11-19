@@ -7,4 +7,5 @@ public class VolumeIcon extends Actor
         setImage("volumeIcon.png");
         getImage().scale(92, 68);
     }
+   
 }

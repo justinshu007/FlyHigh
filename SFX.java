@@ -34,7 +34,17 @@ public class SFX
     public static void playBenar()    { mainkan(sfxBenar); }
     public static void playSalah()    { mainkan(sfxSalah); }
     public static void playGameOver() { mainkan(sfxGameOver); }
-    public static void playHover()    { mainkan(sfxHover); }
+    public static void playHover()
+    {
+            GreenfootSound s = poolHover[indexHover];
+            indexHover = (indexHover + 1) % poolHover.length;
+            if (s != null) {
+                try {
+                    s.setVolume(SetSFXVolume.volume);
+                    s.play();
+                } catch (Exception e) {}
+            }
+    }
     public static void playClick()    { mainkan(sfxClick); }
     public static void playLevelUp()  { mainkan(sfxLevelUp); }
     public static void playLiveUp()  { mainkan(sfxLiveUp); } 
@@ -48,7 +58,21 @@ public class SFX
             } catch (Exception e) {}
         }
     }
+    // Tambahkan pool 3 channel khusus hover agar tidak delay saat sapuan cepat
+    private static GreenfootSound[] poolHover = new GreenfootSound[3];
+    private static int indexHover = 0;
 
+    static {
+        try {
+            // ... inisialisasi sfx lain tetap sama ...
+            for (int i = 0; i < poolHover.length; i++) {
+                poolHover[i] = new GreenfootSound("hoverSFX.wav");
+                poolHover[i].setVolume(SetSFXVolume.volume);
+            }
+        } catch (Exception e) {}
+    }
+
+   
     public static void setVolume(int vol)
     {
         if (sfxBenar != null)    sfxBenar.setVolume(vol);

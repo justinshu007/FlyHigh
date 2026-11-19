@@ -1,7 +1,6 @@
 import greenfoot.*;
 import java.util.List;
 
-//public class StartButton extends Actor
 public class StartButton extends InteractiveButton
 {
     public StartButton()
@@ -12,7 +11,7 @@ public class StartButton extends InteractiveButton
 
     public void act()
     {
-        jalankanEfekTombol(); //cek efek
+        jalankanEfekTombol(); 
         if (Greenfoot.mouseClicked(this))
         {
             World dunia = getWorld();
@@ -28,7 +27,7 @@ public class StartButton extends InteractiveButton
             dunia.addObject(new BtnMedium(), dunia.getWidth() / 2, 220);
             dunia.addObject(new BtnHard(), dunia.getWidth() / 2, 300);
             
-            // Hapus tombol Start di baris paling akhir setelah selesai menggunakan getWorld()
+            // hapus tombol start
             dunia.removeObject(this);
         }
     }

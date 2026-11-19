@@ -20,7 +20,7 @@ public class SettingsWorld extends World
         addObject(sliderMusic, startXMusic, 165);
 
         // SLIDER SFX (BAWAH)
-        addObject(new VolumeIcon(), 185, 245); // Bisa diganti SFXIcon jika ada ikon berbeda
+        addObject(new SFXIcon(), 185, 240);
         addObject(new SliderBar(), 410, 245);
         VolumeSlider sliderSFX = new VolumeSlider(true);
         int startXSFX = 250 + SetSFXVolume.volume * (570 - 250) / 100;
