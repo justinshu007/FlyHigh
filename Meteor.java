@@ -30,11 +30,15 @@ public class Meteor extends Actor
         }
         
         // Jika peluru menabrak KoinSoal, hancurkan koinnya[cite: 1]
-        CoinSoal koinTarget = (CoinSoal) getOneIntersectingObject(CoinSoal.class);
-        if (koinTarget != null) {
-            getWorld().removeObject(koinTarget);
+        CoinSoal koinTarget = (CoinSoal)getOneIntersectingObject(CoinSoal.class);
+        
+        if (koinTarget != null)
+        {
+            koinTarget.mulaiAnimasiHancur();
+        
             getWorld().removeObject(this);
-            // Kamu bisa menambahkan efek suara atau penambah skor di sini nantinya!
+            
+            return;
         }
     }
 }

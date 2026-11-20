@@ -22,9 +22,9 @@ public class Bubble extends Actor
             setImage("bubble3.png");
         }
     
-        // Perbesar 4x
+        // Perbesar 3x
         GreenfootImage img = getImage();
-        img.scale(img.getWidth() * 4, img.getHeight() * 4);
+        img.scale(img.getWidth() * 3, img.getHeight() * 3);
         setImage(img);
     
         speed = Greenfoot.getRandomNumber(2);
