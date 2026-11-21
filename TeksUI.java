@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.awt.GraphicsEnvironment;
 
 /**
  * Write a description of class TeksUI here.
@@ -26,7 +27,7 @@ public class TeksUI extends Actor
     {
         // Kanvas transparan
         GreenfootImage kanvas = new GreenfootImage(350, 60);
-        Font fontKustom = new Font(namaFont, true, false, ukuranFont);
+        Font fontKustom = new Font("Pixelify Sans", true, false, 28);
         kanvas.setFont(fontKustom);
 
         //int posX = 10;
@@ -36,7 +37,9 @@ public class TeksUI extends Actor
         int posX = Math.max(10, (kanvas.getWidth() - perkiraanLebarTeks) / 2);
         int posY = ukuranFont + 12;
         // 1. Gambar outline/stroke hitam di sekeliling teks (offset 2 piksel)
-        kanvas.setColor(Color.BLACK);
+        // Outline biru tua
+        Color outline = new Color(10, 20, 80);
+        kanvas.setColor(outline);
         kanvas.drawString(teksBaru, posX - 2, posY);
         kanvas.drawString(teksBaru, posX + 2, posY);
         kanvas.drawString(teksBaru, posX, posY - 2);

@@ -42,6 +42,9 @@ public class MyWorld extends World
     private int timerGetar = 0; 
     private int bubbleTimer = 0;
     
+    private CoinType modeAktif = CoinType.GOLD;
+    ModeIndicator indicator;
+    
     public MyWorld()
     {
         this(3);
@@ -83,7 +86,12 @@ public class MyWorld extends World
         // 3. Skor Angka Saja di Tengah Atas
         tampilanSkor = new TeksUI(String.valueOf(skorSaatIni), 28, "Press Start 2P");
         addObject(tampilanSkor, 375, 45);
-
+        
+        // 3.5 Mode Indicator
+        indicator = new ModeIndicator();
+        addObject(indicator, 275, 55);
+        indicator.updateMode(modeAktif);
+        
         // 4. 3 Hati Awal di Pojok Kanan Atas
         for (int i = 0; i < 3; i++) {
             daftarHati[i] = new Heart();
@@ -110,6 +118,36 @@ public class MyWorld extends World
                     Greenfoot.getRandomNumber(getWidth()),
                     getHeight() + 10
                 );
+            }
+        }
+        
+        if (Greenfoot.isKeyDown("g"))
+        {
+            modeAktif = CoinType.GOLD;
+        
+            if(indicator != null)
+            {
+                indicator.updateMode(modeAktif);
+            }
+        }
+        
+        if (Greenfoot.isKeyDown("s"))
+        {
+            modeAktif = CoinType.SILVER;
+        
+            if(indicator != null)
+            {
+                indicator.updateMode(modeAktif);
+            }
+        }
+        
+        if (Greenfoot.isKeyDown("b"))
+        {
+            modeAktif = CoinType.BRONZE;
+        
+            if(indicator != null)
+            {
+                indicator.updateMode(modeAktif);
             }
         }
     }
@@ -175,6 +213,11 @@ public class MyWorld extends World
 
             removeObjects(getObjects(CoinSoal.class));
             removeObjects(getObjects(Meteor.class));
+            
+            if(playerKoi != null)
+            {
+                playerKoi.mulaiAnimasiMati();
+            }
 
             addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
             addObject(new GameOverDB(skorSaatIni, bestScore), getWidth() / 2, getHeight() / 2);
@@ -182,7 +225,7 @@ public class MyWorld extends World
         }
     }
 
-    private void periksaBonusNyawa() {
+    public void periksaBonusNyawa() {
         comboBenarBerturut++;
 
         if (comboBenarBerturut >= 5) {
@@ -291,15 +334,15 @@ public class MyWorld extends World
         for (CoinSoal koin : daftarKoin) {
             if (koin.getJawaban() == jawabanPemain) {
                 adaYangBenar = true;
-                SFX.playBenar();
+                //SFX.playBenar();
 
                 if (playerKoi != null) {
                     playerKoi.tembak(koin.getX(), koin.getY());
                 }
 
-                tambahSkor();
-                periksaBonusNyawa();
-                periksaPeningkatanKecepatan();
+                //tambahSkor();
+                //periksaBonusNyawa();
+                //periksaPeningkatanKecepatan();
 
                 // Jika layar jadi kosong setelah koin ditembak, percepat sedikit koin berikutnya
                 // agar anak tidak bosan menunggu layar kosong terlalu lama
@@ -319,16 +362,43 @@ public class MyWorld extends World
         }
     }
 
-    private void pemicuSalah() {
+    public void pemicuSalah()
+    {
         SFX.playSalah();
+    
+        addObject(
+            new FloatingMessage("JAWABAN SALAH!"),
+            500,
+            100
+        );
+    
         comboBenarBerturut = 0;
-        streakKecepatan = 0; // Reset streak percepatan jika salah ketik
+        streakKecepatan = 0;
+    
         timerGetar = 10;
+    
         jawabanDiketik = "";
+    }
+    
+    public void efekSalahWarna()
+    {
+        SFX.playSalah();
+    
+        addObject(
+            new FloatingMessage("WARNA TIDAK COCOK!"),
+            480,
+            100
+        );
+
+    
+        comboBenarBerturut = 0;
+        streakKecepatan = 0;
+    
+        timerGetar = 10;
     }
 
     // PSIKOLOGI FLOW STATE: Kecepatan hanya naik jika user berhasil menjawab berturut-turut!
-    private void periksaPeningkatanKecepatan() {
+    public void periksaPeningkatanKecepatan() {
         streakKecepatan++;
         
         // Setiap 4 jawaban benar berturut-turut tanpa salah/terlewat, naikkan tempo permainan
@@ -376,5 +446,10 @@ public class MyWorld extends World
         bg.drawImage(bgB, scrollX + 750, 0);
         bg.drawImage(bgA, scrollX + 1500, 0);
         bg.drawImage(bgB, scrollX + 2250, 0);
+    }
+    
+    public CoinType getModeAktif()
+    {
+        return modeAktif;
     }
 }

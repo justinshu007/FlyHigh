@@ -9,11 +9,28 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Meteor extends Actor
 {
     private int kecepatanPeluru = 10;
+    private CoinType tipeMeteor;
     
-    public Meteor(){
-        // Atur ukuran peluru, ganti gambar jika punya asetnya[cite: 1]
-        GreenfootImage gambar = getImage();
-        gambar.scale(40, 30); 
+    public Meteor(CoinType tipe)
+    {
+        tipeMeteor = tipe;
+    
+        GreenfootImage gambar;
+    
+        if(tipeMeteor == CoinType.GOLD)
+        {
+            gambar = new GreenfootImage("meteorG.png");
+        }
+        else if(tipeMeteor == CoinType.SILVER)
+        {
+            gambar = new GreenfootImage("meteorS.png");
+        }
+        else
+        {
+            gambar = new GreenfootImage("meteorB.png");
+        }
+    
+        gambar.scale(20, 20);
         setImage(gambar);
     }
     /**
@@ -30,15 +47,46 @@ public class Meteor extends Actor
         }
         
         // Jika peluru menabrak KoinSoal, hancurkan koinnya[cite: 1]
-        CoinSoal koinTarget = (CoinSoal)getOneIntersectingObject(CoinSoal.class);
-        
+        CoinSoal koinTarget =
+    (CoinSoal)getOneIntersectingObject(CoinSoal.class);
+
         if (koinTarget != null)
         {
-            koinTarget.mulaiAnimasiHancur();
-        
-            getWorld().removeObject(this);
+            // WARNA SAMA = BOLEH HANCUR
+            if(koinTarget.getTipeCoin() == tipeMeteor)
+            {
+                MyWorld dunia = (MyWorld)getWorld();
             
+                SFX.playBenar();
+            
+                dunia.tambahSkor();
+            
+                dunia.periksaBonusNyawa();
+            
+                dunia.periksaPeningkatanKecepatan();
+            
+                koinTarget.mulaiAnimasiHancur();
+            
+                getWorld().removeObject(this);
+            }
+            // WARNA BERBEDA = TEMBAKAN GAGAL
+            else
+            {
+                MyWorld dunia = (MyWorld)getWorld();
+            
+                dunia.efekSalahWarna();
+            
+                getWorld().removeObject(this);
+            }
+
+        
             return;
+        
         }
+    }
+    
+    public CoinType getTipeMeteor()
+    {
+        return tipeMeteor;
     }
 }

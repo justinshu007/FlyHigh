@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=ModeIndicator
+comment1.params=mode
+comment1.target=void\ updateMode(CoinType)
+comment2.params=
+comment2.target=void\ act()
+numComments=3

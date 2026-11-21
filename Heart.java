@@ -44,7 +44,6 @@ public class Heart extends Actor
     {
         GreenfootImage img = new GreenfootImage(150, 50);
 
-        
         setImage(img);
     }
 }

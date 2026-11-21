@@ -5,10 +5,12 @@ public class CoinSoal extends Actor
     private int jawabanBenar;
     private int kecepatan = 2;
     private boolean sudahTerlewat = false;
-    private GreenfootImage[] animasiHancur = new GreenfootImage[12];
+    private GreenfootImage[] animasiHancur = new GreenfootImage[11];
     private boolean sedangHancur = false;
     private int frameHancur = 0;
     private int timerAnimasi = 0;
+    private CoinType tipeCoin;
+    
 
     public CoinSoal(int batasAngkaLevel, int kecepatanKoin) {
         this(batasAngkaLevel, kecepatanKoin, 10);
@@ -16,7 +18,9 @@ public class CoinSoal extends Actor
 
     public CoinSoal(int batasAngkaLevel, int kecepatanKoin, int skorSaatIni) {
         this.kecepatan = kecepatanKoin;
-
+        
+        tipeCoin = CoinType.values() [Greenfoot.getRandomNumber(3)];
+        
         int batas = (batasAngkaLevel <= 0) ? 3 : batasAngkaLevel;
 
         // PSIKOLOGI SCAFFOLDING: 4 soal pertama pakai rentang pemanasan agar anak langsung percaya diri
@@ -43,20 +47,71 @@ public class CoinSoal extends Actor
             teksSoal = angka1 + " + " + angka2;
         }
 
-        GreenfootImage gambarKoin = new GreenfootImage("coinSilver.png");
-        gambarKoin.scale(80, 80);
+        GreenfootImage gambarKoin;
+
+        if(tipeCoin == CoinType.GOLD)
+        {
+            gambarKoin = new GreenfootImage("coinGold.png");
+        }
+        else if(tipeCoin == CoinType.SILVER)
+        {
+            gambarKoin = new GreenfootImage("coinSilver.png");
+        }
+        else
+        {
+            gambarKoin = new GreenfootImage("coinBronze.png");
+        }
+        gambarKoin.scale(80,80);
         
-        GreenfootImage teks = new GreenfootImage(teksSoal, 28, Color.BLACK, new Color(0, 0, 0, 0));
+        Font fontPixel = new Font("Pixelify Sans", true, false, 22);
+
+        gambarKoin.setFont(fontPixel);
         
-        int posisiTengahX = (gambarKoin.getWidth() - teks.getWidth()) / 2;
-        int posisiTengahY = (gambarKoin.getHeight() - teks.getHeight()) / 2;
+        // Outline biru tua
+        Color outline = new Color(10, 20, 80);
         
-        gambarKoin.drawImage(teks, posisiTengahX, posisiTengahY); 
+        int textX = 20;
+        int textY = 46;
+        
+        // OUTLINE
+        gambarKoin.setColor(outline);
+        
+        gambarKoin.drawString(teksSoal, textX - 2, textY);
+        gambarKoin.drawString(teksSoal, textX + 2, textY);
+        gambarKoin.drawString(teksSoal, textX, textY - 2);
+        gambarKoin.drawString(teksSoal, textX, textY + 2);
+        
+        gambarKoin.drawString(teksSoal, textX - 2, textY - 2);
+        gambarKoin.drawString(teksSoal, textX + 2, textY - 2);
+        gambarKoin.drawString(teksSoal, textX - 2, textY + 2);
+        gambarKoin.drawString(teksSoal, textX + 2, textY + 2);
+        
+        // TEKS PUTIH
+        gambarKoin.setColor(Color.WHITE);
+        gambarKoin.drawString(teksSoal, textX, textY); 
         setImage(gambarKoin);
+        
         //for animasi
+        String prefix;
+        
+        if(tipeCoin == CoinType.GOLD)
+        {
+            prefix = "coinG_";
+        }
+        else if(tipeCoin == CoinType.SILVER)
+        {
+            prefix = "coinS_";
+        }
+        else
+        {
+            prefix = "coinB_";
+        }
+        
         for(int i = 0; i < 11; i++)
         {
-            animasiHancur[i] = new GreenfootImage("coin_" + (i + 1) + ".png");
+            animasiHancur[i] =
+                new GreenfootImage(prefix + (i + 1) + ".png");
+        
             animasiHancur[i].scale(115, 115);
         }
     }
@@ -120,7 +175,7 @@ public class CoinSoal extends Actor
     private void jalankanAnimasiHancur()
     {
         timerAnimasi++;
-    
+        
         // ganti frame setiap 3 act
         if (timerAnimasi >= 4)
         {
@@ -141,5 +196,10 @@ public class CoinSoal extends Actor
                 }
             }
         }
+    }
+    
+    public CoinType getTipeCoin()
+    {
+        return tipeCoin;
     }
 }
