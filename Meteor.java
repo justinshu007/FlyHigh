@@ -9,34 +9,31 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Meteor extends Actor
 {
     private int kecepatanPeluru = 10;
-    private CoinType tipeMeteor;
     
-    public Meteor(CoinType tipe)
+    public Meteor()
     {
-        tipeMeteor = tipe;
-    
         GreenfootImage gambar;
     
-        if(tipeMeteor == CoinType.GOLD)
+        int variasi = Greenfoot.getRandomNumber(3);
+    
+        if(variasi == 0)
         {
-            gambar = new GreenfootImage("meteorG.png");
+            gambar = new GreenfootImage("meteorB.png");
         }
-        else if(tipeMeteor == CoinType.SILVER)
+        else if(variasi == 1)
         {
             gambar = new GreenfootImage("meteorS.png");
         }
         else
         {
-            gambar = new GreenfootImage("meteorB.png");
+            gambar = new GreenfootImage("meteorG.png");
         }
     
         gambar.scale(20, 20);
+    
         setImage(gambar);
     }
-    /**
-     * Act - do whatever the Meteor wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+
     public void act()
     {
         move(kecepatanPeluru); // Bergerak cepat mengejar target[cite: 1]
@@ -50,43 +47,23 @@ public class Meteor extends Actor
         CoinSoal koinTarget =
     (CoinSoal)getOneIntersectingObject(CoinSoal.class);
 
-        if (koinTarget != null)
+        if(koinTarget != null)
         {
-            // WARNA SAMA = BOLEH HANCUR
-            if(koinTarget.getTipeCoin() == tipeMeteor)
-            {
-                MyWorld dunia = (MyWorld)getWorld();
-            
-                SFX.playBenar();
-            
-                dunia.tambahSkor();
-            
-                dunia.periksaBonusNyawa();
-            
-                dunia.periksaPeningkatanKecepatan();
-            
-                koinTarget.mulaiAnimasiHancur();
-            
-                getWorld().removeObject(this);
-            }
-            // WARNA BERBEDA = TEMBAKAN GAGAL
-            else
-            {
-                MyWorld dunia = (MyWorld)getWorld();
-            
-                dunia.efekSalahWarna();
-            
-                getWorld().removeObject(this);
-            }
-
+            MyWorld dunia = (MyWorld)getWorld();
+        
+            SFX.playBenar();
+        
+            dunia.tambahSkor();
+        
+            dunia.periksaBonusNyawa();
+        
+            dunia.periksaPeningkatanKecepatan();
+        
+            koinTarget.mulaiAnimasiHancur();
+        
+            getWorld().removeObject(this);
         
             return;
-        
         }
-    }
-    
-    public CoinType getTipeMeteor()
-    {
-        return tipeMeteor;
     }
 }

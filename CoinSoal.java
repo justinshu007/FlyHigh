@@ -19,9 +19,20 @@ public class CoinSoal extends Actor
     public CoinSoal(int batasAngkaLevel, int kecepatanKoin, int skorSaatIni) {
         this.kecepatan = kecepatanKoin;
         
-        tipeCoin = CoinType.values() [Greenfoot.getRandomNumber(3)];
-        
         int batas = (batasAngkaLevel <= 0) ? 3 : batasAngkaLevel;
+        
+        if(batas <= 3)
+        {
+            tipeCoin = CoinType.BRONZE;
+        }
+        else if(batas <= 5)
+        {
+            tipeCoin = CoinType.SILVER;
+        }
+        else
+        {
+            tipeCoin = CoinType.GOLD;
+        }
 
         // PSIKOLOGI SCAFFOLDING: 4 soal pertama pakai rentang pemanasan agar anak langsung percaya diri
         int batasEfektif = batas;

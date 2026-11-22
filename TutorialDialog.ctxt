@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=TutorialDialog
+comment1.params=
+comment1.target=TutorialDialog()
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ updateDialog()
+comment4.params=img\ text\ x\ y
+comment4.target=void\ drawLabel(greenfoot.GreenfootImage,\ java.lang.String,\ int,\ int)
+comment5.params=
+comment5.target=void\ selesaiTutorial()
+numComments=6

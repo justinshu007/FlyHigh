@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=GameOverDB
-comment1.params=skorAkhir\ bestScore
-comment1.target=GameOverDB(int,\ int)
+comment1.params=skorMentah\ multiplier\ skorFinal\ bestScore
+comment1.target=GameOverDB(int,\ double,\ int,\ int)
 comment2.params=img\ text\ x\ y
 comment2.target=void\ drawOutlinedText(greenfoot.GreenfootImage,\ java.lang.String,\ int,\ int)
 comment2.text=\r\n\ Membuat\ outline\ sederhana\ untuk\ teks\r\n

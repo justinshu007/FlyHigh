@@ -176,8 +176,7 @@ public class Koi extends Actor
     
         MyWorld dunia = (MyWorld)getWorld();
     
-        Meteor peluruBaru =
-            new Meteor(dunia.getModeAktif());
+        Meteor peluruBaru = new Meteor();
     
         getWorld().addObject(
             peluruBaru,
