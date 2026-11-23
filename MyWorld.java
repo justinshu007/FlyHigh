@@ -89,7 +89,7 @@
             }
             else
             {
-                scoreMultiplier = 2.5;
+                scoreMultiplier = 3.0;
             }
             
             isPaused = true;
@@ -244,7 +244,7 @@
                 comboBenarBerturut = 0;
                 if (nyawa < 5) {
                     daftarHati[nyawa] = new Heart();
-                    addObject(daftarHati[nyawa], 540 + (nyawa * 38), 45);
+                    addObject(daftarHati[nyawa], 540 + (nyawa * 42), 45);
                     daftarHati[nyawa].mulaiKedip();
                     nyawa++;
                     SFX.playLiveUp(); // <-- Memutar SFX khusus saat nyawa bertambah
@@ -407,23 +407,6 @@
             jawabanDiketik = "";
         }
         
-        public void efekSalahWarna()
-        {
-            SFX.playSalah();
-        
-            addObject(
-                new FloatingMessage("BALL'S COLOR DIDN'T MATCH!"),
-                480,
-                100
-            );
-    
-        
-            comboBenarBerturut = 0;
-            streakKecepatan = 0;
-        
-            timerGetar = 10;
-        }
-    
         // PSIKOLOGI FLOW STATE: Kecepatan hanya naik jika user berhasil menjawab berturut-turut!
         public void periksaPeningkatanKecepatan() {
             streakKecepatan++;

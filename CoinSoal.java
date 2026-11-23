@@ -3,7 +3,7 @@ import greenfoot.*;
 public class CoinSoal extends Actor
 {
     private int jawabanBenar;
-    private int kecepatan = 2;
+    public int kecepatan = 2;
     private boolean sudahTerlewat = false;
     private GreenfootImage[] animasiHancur = new GreenfootImage[11];
     private boolean sedangHancur = false;
@@ -21,11 +21,11 @@ public class CoinSoal extends Actor
         
         int batas = (batasAngkaLevel <= 0) ? 3 : batasAngkaLevel;
         
-        if(batas <= 3)
+        if(batas == 3)
         {
             tipeCoin = CoinType.BRONZE;
         }
-        else if(batas <= 5)
+        else if(batas == 5)
         {
             tipeCoin = CoinType.SILVER;
         }

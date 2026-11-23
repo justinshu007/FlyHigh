@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Meteor extends Actor
 {
-    private int kecepatanPeluru = 10;
+    private int kecepatanPeluru = 15;
     
     public Meteor()
     {
@@ -36,16 +36,15 @@ public class Meteor extends Actor
 
     public void act()
     {
-        move(kecepatanPeluru); // Bergerak cepat mengejar target[cite: 1]
+        move(kecepatanPeluru); // Bergerak cepat mengejar target
         
         if (isAtEdge()) {
             getWorld().removeObject(this);
             return;
         }
         
-        // Jika peluru menabrak KoinSoal, hancurkan koinnya[cite: 1]
-        CoinSoal koinTarget =
-    (CoinSoal)getOneIntersectingObject(CoinSoal.class);
+        // Jika peluru menabrak KoinSoal, hancurkan koinnya
+        CoinSoal koinTarget = (CoinSoal)getOneIntersectingObject(CoinSoal.class);
 
         if(koinTarget != null)
         {
