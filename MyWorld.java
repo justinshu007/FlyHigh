@@ -120,7 +120,7 @@
             // 4. 3 Hati Awal di Pojok Kanan Atas
             for (int i = 0; i < 3; i++) {
                 daftarHati[i] = new Heart();
-                addObject(daftarHati[i], 540 + (i * 38), 45);
+                addObject(daftarHati[i], 540 + (i * 42), 45);
             }
         }
     
@@ -401,6 +401,8 @@
             streakKecepatan = 0;
         
             timerGetar = 10;
+            
+            kurangiNyawa();
         
             jawabanDiketik = "";
         }

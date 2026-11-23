@@ -13,4 +13,6 @@ comment5.target=void\ mulaiAnimasiHancur()
 comment6.params=
 comment6.target=void\ jalankanAnimasiHancur()
 comment6.text=\r\n\ Menjalankan\ animasi\ hancur\r\n
-numComments=7
+comment7.params=
+comment7.target=CoinType\ getTipeCoin()
+numComments=8

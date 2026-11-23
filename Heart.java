@@ -10,10 +10,10 @@ public class Heart extends Actor
     public Heart()
     {
         gambarNormal = new GreenfootImage("heart.png");
-        gambarNormal.scale(34, 32);
+        gambarNormal.scale(39, 36);
 
         // Membuat versi transparan untuk efek kedip
-        gambarTransparan = new GreenfootImage(34, 32); 
+        gambarTransparan = new GreenfootImage(34, 30); 
 
         setImage(gambarNormal);
     }
