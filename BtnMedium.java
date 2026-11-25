@@ -21,7 +21,7 @@ public class BtnMedium extends InteractiveButton
         jalankanEfekTombol();
         if (Greenfoot.mouseClicked(this))
         {
-            // Pindah ke MyWorld dengan batas angka 1-3 (Easy)
+            // Pindah ke MyWorld dengan batas angka 1-5 (Medium)
             Greenfoot.setWorld(new MyWorld(5));
         }
     }

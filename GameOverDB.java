@@ -3,7 +3,7 @@ import java.awt.GraphicsEnvironment;
 
 public class GameOverDB extends Actor
 {
-    public GameOverDB(int skorMentah, double multiplier, int skorFinal, int bestScore)
+    public GameOverDB(int skorMentah, int bestScore)
     {
         GreenfootImage board;
 
@@ -23,24 +23,14 @@ public class GameOverDB extends Actor
         board.setFont(fontSkor);
 
         String teksSkor =
-            "score : " + skorMentah;
-        
-        String teksBonus =
-            "bonus x" + multiplier;
-        
-        String teksFinal =
-            "final : " + skorFinal;
+            "Your Score : " + skorMentah;
         
         String teksBest =
-            "best : " + bestScore;
+            "Best Score : " + bestScore;
 
-        drawOutlinedText(board, teksSkor, 90, 140);
-
-        drawOutlinedText(board, teksBonus, 90, 165);
-        
-        drawOutlinedText(board, teksFinal, 90, 190);
-        
-        drawOutlinedText(board, teksBest, 250, 165);
+        drawOutlinedText(board, teksSkor, 120, 160);
+                
+        drawOutlinedText(board, teksBest, 120, 190);
 
         setImage(board);
     }

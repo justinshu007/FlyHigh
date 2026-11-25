@@ -247,13 +247,10 @@
                 }
     
                 addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
-                double skorFinal = skorSaatIni * scoreMultiplier;
 
                 addObject(
                     new GameOverDB(
                         skorSaatIni,
-                        scoreMultiplier,
-                        (int)Math.round(skorFinal),
                         bestScore
                     ),
                     getWidth() / 2,

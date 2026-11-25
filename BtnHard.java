@@ -20,7 +20,7 @@ public class BtnHard extends InteractiveButton
         jalankanEfekTombol();
         if (Greenfoot.mouseClicked(this))
         {
-            // Pindah ke MyWorld dengan batas angka 1-3 (Easy)
+            // Pindah ke MyWorld dengan batas angka 1-10 (Hard)
             Greenfoot.setWorld(new MyWorld(10));
         }
     }
