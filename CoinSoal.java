@@ -81,9 +81,10 @@ public class CoinSoal extends Actor
         // Outline biru tua
         Color outline = new Color(10, 20, 80);
         
-        int textX = 20;
-        int textY = 46;
-        
+        GreenfootImage pengukur = new GreenfootImage(teksSoal, 22, Color.WHITE, new Color(0, 0, 0, 0));
+        int textX = (gambarKoin.getWidth() - pengukur.getWidth()) / 2;
+        int textY = (gambarKoin.getHeight() - pengukur.getHeight()) / 2 + 18;
+                
         // OUTLINE
         gambarKoin.setColor(outline);
         

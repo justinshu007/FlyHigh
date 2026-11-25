@@ -1,5 +1,6 @@
     import greenfoot.*;
     import java.util.List;
+    import java.util.ArrayList;
     
     public class MyWorld extends World
     {
@@ -13,11 +14,14 @@
         private int speed = 1;
         private double scoreMultiplier = 1.0;
         
+        // --- PENYIMPAN KOIN SAAT PAUSE ---
+            private List<CoinSoal> koinTersimpan = new ArrayList<>();
+            private List<int[]> posisiKoinTersimpan = new ArrayList<>();
         // --- STATUS GAME OVER ---
         private boolean isGameOver = false;
         
         // --- VARIABEL SPAWNER KOIN (PSIKOLOGI FLOW & RECOVERY) ---
-        private int jedaSpawnKoin = 350;      // Jeda awal santai (~3,6 detik) untuk orientasi
+        private int jedaSpawnKoin = 160;      // Jeda awal santai (~3,6 detik) untuk orientasi
         private int timerSpawn = 45;          // Koin pertama segera menyapa agar tidak menunggu lama
         private int kecepatanKoinSaatIni = 2; // Laju gerak awal lembut (1 px/frame)
         private int streakKecepatan = 0;      // Dihitung dari jawaban benar berturut-turut
@@ -126,15 +130,16 @@
     
         public void act()
         {    
-            scrollBackground();
-            
             if (!isGameOver) {
+                scrollBackground();   
                 if (!isPaused) {
-                    munculkanKoinBertahap();
-                    sistemMengetikDanMenembak();
-                    efekGetarObjek();
+                           // Berhenti saat pause
+                    munculkanKoinBertahap();     // Berhenti saat pause
+                    sistemMengetikDanMenembak(); // Berhenti saat pause
+                    efekGetarObjek();            // Berhenti saat pause
                 }
     
+                // Bubble tetap berjalan saat pause
                 bubbleTimer++;
                 if (bubbleTimer >= 20)
                 {
@@ -177,8 +182,19 @@
     
         public void jedaPermainan() {
             isPaused = true;
+            jawabanDiketik = ""; // Reset ketikan setengah jalan agar tidak bocor
             Greenfoot.getKey();
     
+            // 1. Simpan posisi & objek koin aktif, lalu hilangkan dari layar
+            koinTersimpan.clear();
+            posisiKoinTersimpan.clear();
+            for (CoinSoal koin : getObjects(CoinSoal.class)) {
+                koinTersimpan.add(koin);
+                posisiKoinTersimpan.add(new int[]{ koin.getX(), koin.getY() });
+            }
+            removeObjects(koinTersimpan);
+    
+            // 2. Tampilkan overlay & dialog pause
             addObject(new PauseOverlay(), getWidth() / 2, getHeight() / 2);
             addObject(new PauseDialogBox(), getWidth() / 2, getHeight() / 2);
             addObject(new BtnBackPause(), 400, 195);
@@ -189,10 +205,20 @@
             isPaused = false;
             Greenfoot.getKey();
     
+            // 1. Hapus komponen dialog pause
             removeObjects(getObjects(BtnBackPause.class));
             removeObjects(getObjects(BtnMainMenu.class));
             removeObjects(getObjects(PauseDialogBox.class));
             removeObjects(getObjects(PauseOverlay.class));
+    
+            // 2. Munculkan kembali koin-koin di posisi terakhirnya
+            for (int i = 0; i < koinTersimpan.size(); i++) {
+                CoinSoal koin = koinTersimpan.get(i);
+                int[] pos = posisiKoinTersimpan.get(i);
+                addObject(koin, pos[0], pos[1]);
+            }
+            koinTersimpan.clear();
+            posisiKoinTersimpan.clear();
         }
         
         // --- SISTEM NYAWA & PEMICU GAME OVER ---
@@ -336,56 +362,52 @@
             }
         }
     
-        private void prosesCekJawabanKonteks() {
-            if (jawabanDiketik.isEmpty()) return;
+       private void prosesCekJawabanKonteks() {
+        if (jawabanDiketik.isEmpty()) return;
     
-            List<CoinSoal> daftarKoin = getObjects(CoinSoal.class);
-            if (daftarKoin.isEmpty()) {
+        List<CoinSoal> daftarKoin = getObjects(CoinSoal.class);
+        if (daftarKoin.isEmpty()) {
+            jawabanDiketik = "";
+            return;
+        }
+    
+        int jawabanPemain;
+        try {
+            jawabanPemain = Integer.parseInt(jawabanDiketik);
+        } catch (NumberFormatException e) {
+            jawabanDiketik = "";
+            return;
+        }
+    
+        boolean adaYangBenar = false;
+        boolean adaPotensiBenar = false;
+    
+        for (CoinSoal koin : daftarKoin) {
+            if (koin.getJawaban() == jawabanPemain) {
+                adaYangBenar = true;
+    
+                if (playerKoi != null) {
+                    playerKoi.tembak(koin.getX(), koin.getY());
+                }
+    
+                if (getObjects(CoinSoal.class).size() <= 1 && timerSpawn > 45) {
+                    timerSpawn = 45;
+                }
+    
                 jawabanDiketik = "";
-                return;
-            }
-    
-            int jawabanPemain;
-            try {
-                jawabanPemain = Integer.parseInt(jawabanDiketik);
-            } catch (NumberFormatException e) {
-                jawabanDiketik = "";
-                return;
-            }
-    
-            boolean adaYangBenar = false;
-            boolean adaPotensiBenar = false;
-    
-            for (CoinSoal koin : daftarKoin) {
-                if (koin.getJawaban() == jawabanPemain) {
-                    adaYangBenar = true;
-                    //SFX.playBenar();
-    
-                    if (playerKoi != null) {
-                        playerKoi.tembak(koin.getX(), koin.getY());
-                    }
-    
-                    //tambahSkor();
-                    //periksaBonusNyawa();
-                    //periksaPeningkatanKecepatan();
-    
-                    // Jika layar jadi kosong setelah koin ditembak, percepat sedikit koin berikutnya
-                    // agar anak tidak bosan menunggu layar kosong terlalu lama
-                    if (getObjects(CoinSoal.class).size() <= 1 && timerSpawn > 45) {
-                        timerSpawn = 45;
-                    }
-    
-                    jawabanDiketik = "";
-                    break;
-                } else if (String.valueOf(koin.getJawaban()).startsWith(jawabanDiketik)) {
+                break;
+            } else if (jawabanDiketik.length() == 1 && koin.getJawaban() >= 10) {
+                // Hanya tahan validasi jika baru mengetik 1 digit dan memang ada koin bernilai >= 10
+                if (String.valueOf(koin.getJawaban()).startsWith(jawabanDiketik)) {
                     adaPotensiBenar = true;
                 }
             }
-    
-            if (!adaYangBenar && !adaPotensiBenar) {
-                pemicuSalah();
-            }
         }
+    
+        if (!adaYangBenar && !adaPotensiBenar) {
+            pemicuSalah();
+        }
+    }
     
         public void pemicuSalah()
         {
@@ -399,11 +421,8 @@
         
             comboBenarBerturut = 0;
             streakKecepatan = 0;
-        
             timerGetar = 10;
-            
             kurangiNyawa();
-        
             jawabanDiketik = "";
         }
         
@@ -449,6 +468,8 @@
             if (scrollX <= -1500) {
                 scrollX = 0;
             }
+            
+
     
             GreenfootImage bg = getBackground();
             bg.clear();
